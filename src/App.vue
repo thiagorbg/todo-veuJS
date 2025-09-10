@@ -1,47 +1,60 @@
+
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref, computed } from "vue";
+
+const campoA = ref(0);
+const campoB = ref(0);
+const operacao = ref("multiplicar");
+
+// Computed calcula automaticamente sempre que algum valor muda
+const resultado = computed(() => {
+const a = parseFloat(campoA.value);
+const b = parseFloat(campoB.value);
+
+switch (operacao.value) {
+    case "multiplicar":
+      return a * b;
+    case "divisao":
+    return b !== 0 ? a / b : "Erro: divisão por zero";
+    case "adicao":
+    return a + b;
+    case "subtracao":
+    return a - b;
+    default:
+    return "";
+}
+});
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+<div class="container text-center">
+    <div class="border--">
+        <header class="mt-5 bg-light text-center mb-5 p-4 " >
+        <h1 class="">Calculadora Aritimetrica</h1>
+        <p>resultado {{ resultado }}</p>
+    </header>
+    <div class="d-flex justify-content-center mt-3">
+    <input v-model="campoA" type="number" placeholder="Número 1" class="form-control w-25 me-2" />
+    <select v-model="operacao" class="form-control w-25 me-2">
+        <option value="multiplicar">Multiplicar</option>
+        <option value="divisao">Divisão</option>
+        <option value="adicao">Adição</option>
+        <option value="subtracao">Subtração</option>
+    </select>
+    <input v-model="campoB" type="number" placeholder="Número 2" class="form-control w-25 me-2" />
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    
+    <h3 class="mt-3">Seu resultado é: {{ resultado }}</h3>
+    </div>
+</div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.border-- {
+    border-bottom: 2px solid black;
+    padding-bottom: 20px;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.container {
+    margin-top: 30px;
 }
 </style>
